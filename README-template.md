@@ -20,7 +20,13 @@ Stata 17
 
 ## How to Run
 
-[Step-by-step instructions for running the analysis from scratch.]
+1. Obtain the required data described below.
+2. Update file paths and directory globals in the Stata scripts for your local environment.
+3. For the HCCI analysis, run:
+   - `HCCI Analytic File Construction.do`
+   - `HCCI_Analysis.do`
+4. Run `BRFSS_Analysis.do` for the 2022 BRFSS analysis.
+5. Run `NHIS_Analysis.do` for the 2024 NHIS analysis.
 
 ## Data Sources
 - **Health Care Cost Institute (HCCI), 2016–2022:** Commercial health insurance claims data. These data are proprietary and cannot be redistributed through this repository.
