@@ -30,11 +30,16 @@ The 2024 National Health Interview Survey (NHIS) data used in this study were ob
 
 1. **Obtain Data:** Obtain the required data described in the Data Availability Statement. Place public-use data files in the repository's `data/` folder.
 
-2. **Run Analysis:** Execute the scripts as follows:
+2. **Set Directories:**  
+   - The BRFSS and NHIS scripts use repository-relative paths and should not require user-specific directory changes if the repository structure is preserved.
+   - For the HCCI analysis, update the `$data`, `$temp`, and `$output` globals to match your local restricted-data environment.
+
+3. **Run Analysis:** Execute the scripts as follows:
    - `HCCI Analytic File Construction.do`
    - `HCCI_Analysis.do`
    - `BRFSS_Analysis.do`
    - `NHIS_Analysis.do`
+
 
 ## Contact
 For questions regarding this replication package, contact Brad Davis at badhhh@missouri.edu.
