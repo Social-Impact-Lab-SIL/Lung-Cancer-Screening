@@ -3,6 +3,35 @@
 This folder contains the code and instructions to replicate the findings of "Lung Cancer Screening After the 2021 USPSTF Eligibility Expansion: Evidence From Commercial Claims and National Surveys".
 
 ## Data Availability Statement
+
+Raw data are not included in this repository.
+
+### Health Care Cost Institute (HCCI)
+
+The primary analysis uses 2016–2022 commercial claims data from the Health Care Cost Institute (HCCI). These data are proprietary and cannot be redistributed. Researchers interested in obtaining access should apply directly through HCCI.
+
+The HCCI analysis scripts assume access to the licensed claims data and project-specific intermediate files generated from those data.
+
+### Behavioral Risk Factor Surveillance System (BRFSS)
+
+The 2022 Behavioral Risk Factor Surveillance System (BRFSS) public-use data are freely available from the Centers for Disease Control and Prevention:
+
+https://www.cdc.gov/brfss/annual_data/annual_2022.html
+
+Download the 2022 BRFSS SAS Transport data file (`LLCP2022.XPT`) before running `BRFSS_Analysis.do`.
+
+### National Health Interview Survey (NHIS)
+
+The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS and cannot be redistributed in this repository.
+
+Researchers can obtain the data from IPUMS NHIS:
+
+https://nhis.ipums.org/nhis/
+
+Users should construct the required extract and comply with IPUMS terms of use and citation requirements before running `NHIS_Analysis.do`.
+
+
+
 - **Raw Data:** [Specify if data is public, proprietary, or provided in this repo].
 - **Data Access:** [Provide link to Zenodo/OSF/OneDrive or instructions for requesting access].
 - **Note:** If using restricted data, the scripts provided here assume you have placed the raw files in the `/data` folder.
