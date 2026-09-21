@@ -33,13 +33,14 @@ The 2024 National Health Interview Survey (NHIS) data used in this study were ob
 
 
 ## Instructions
-1. **Set Directory:** Open `main_file.do`  and update the `global` or `working_directory` path to your local machine.
-2. **Run Analysis:** Execute the scripts in the following order:
-   - `01_clean_data.do`
-   - `02_analysis.do`
-   - `03_generate_figures.do`
-3. **Estimated Run Time:** [e.g., 5 minutes / 2 hours]
 
+1. **Obtain Data:** Obtain the required data described in the Data Availability Statement. Place public-use data files in the repository's `data/` folder.
+
+2. **Run Analysis:** Execute the scripts as follows:
+   - `HCCI Analytic File Construction.do`
+   - `HCCI_Analysis.do`
+   - `BRFSS_Analysis.do`
+   - `NHIS_Analysis.do`
 
 ## Contact
 For questions regarding this replication package, contact Brad Davis at badhhh@missouri.edu.
