@@ -22,12 +22,6 @@ Download the 2022 BRFSS SAS Transport data file (`LLCP2022.XPT`) before running 
 
 The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS: https://nhis.ipums.org/nhis/
 
-
-
-- **Raw Data:** [Specify if data is public, proprietary, or provided in this repo].
-- **Data Access:** [Provide link to Zenodo/OSF/OneDrive or instructions for requesting access].
-- **Note:** If using restricted data, the scripts provided here assume you have placed the raw files in the `/data` folder.
-
 ## Software Requirements
 - **Primary Software:** Stata 17
 
