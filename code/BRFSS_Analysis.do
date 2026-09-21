@@ -15,10 +15,6 @@ keep if priminsr == 1
 tab checkup1, missing
 keep if checkup1 == 1
 
-//*Restrict to those who responded to whether or not they recieved a CT scan. 
-//tab dispcode if lcsctsc1 == ., missing
-tab lcsctsc1, missing
-//keep if lcsctsc1 == 1 | lcsctsc1 == 2
 
 tab smoke100, missing
 * Restrict to respondents with known smoking status
@@ -86,6 +82,8 @@ svy: tab lcs_eligible if _age80 > 55, missing //10.37% + 2.97*0.3079 = 11.28% n 
 *------------------------------------------------------------
 * Screening rates among those meeting smoking eligibility
 *------------------------------------------------------------
+
+*Restrict to those who responded to whether or not they recieved a CT scan. 
 keep if lcsctsc1 == 1 | lcsctsc1 == 2
 
 * Screening rate among eligible population only
