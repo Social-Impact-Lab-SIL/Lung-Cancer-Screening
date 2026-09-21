@@ -21,7 +21,7 @@ Stata 17
 ## How to Run
 
 1. Obtain the required data described below.
-2. Update file paths and directory globals in the Stata scripts for your local environment.
+2. Place the required data files in the repository's `data/` folder.
 3. For the HCCI analysis, run:
    - `HCCI Analytic File Construction.do`
    - `HCCI_Analysis.do`
