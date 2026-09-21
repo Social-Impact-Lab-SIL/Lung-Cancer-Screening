@@ -1,35 +1,3 @@
-//log using adult.log, replace
- 
-/* ----------------------------------------------------------------------------
- 
-   The National Health Interview Survey (NHIS) 2024;
- 
-                 Sample Adult data file
- 
-   This program loads the NHIS sample adult ASCII data file downloaded from the
-   NCHS website (https://www.cdc.gov/nchs/nhis/index.htm) to a Stata dataset.
- 
-   The program creates descriptive variable labels and formats with meaningful
-   category labels.  It sets the variable lengths and uses input statements to
-   read in the data.
- 
-   BEFORE RUNNING THIS PROGRAM, PLEASE:
-    - Create a folder called C:\NHIS2024 (on a machine running Windows)
-    - Download the sample adult ASCII file to the folder C:\NHIS2024
-      (on a machine running Windows)
- 
-   Running this program will replace the log file and the dataset in the default
-   directory, if present.
-*/
- 
-//cd c:\nhis2024
- 
-version 6.0
- 
-* The following command temporarily changes the command-
-* ending delimiter from a carriage return to a semicolon
- 
-#delimit;
 clear;
 set mem 200m;
  
@@ -557,8 +525,7 @@ infix
       cemmetng_a           787 -  787      cevotelc_a           788 -  788 
  
  
-using adult24.dat;
- 
+using "../data/adult24.dat"; 
  
 * DEFINE VARIABLE LABELS;
  
@@ -3282,10 +3249,7 @@ label values  cemmetng_a       SA143X; label values   cevotelc_a       SA143X;
 describe;
 #delimit cr
  
-* data file is stored in adult.dta
-* log  file is stored in adult.log
  
-//log close
 
 save NHIS_2024.dta, replace
 
