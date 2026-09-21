@@ -8,9 +8,7 @@ Raw data are not included in this repository.
 
 ### Health Care Cost Institute (HCCI)
 
-The primary analysis uses 2016–2022 commercial claims data from the Health Care Cost Institute (HCCI). These data are proprietary and cannot be redistributed. Researchers interested in obtaining access should apply directly through HCCI.
-
-The HCCI analysis scripts assume access to the licensed claims data and project-specific intermediate files generated from those data.
+The primary analysis uses 2016–2022 commercial claims data from the Health Care Cost Institute (HCCI). These data are proprietary and cannot be redistributed.
 
 ### Behavioral Risk Factor Surveillance System (BRFSS)
 
