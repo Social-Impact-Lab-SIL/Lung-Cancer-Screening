@@ -10,8 +10,6 @@ This paper examines changes in low-dose computed tomography (LDCT) lung cancer s
 ## Repository Structure
 ├── data/           # Raw and processed data (not committed — see .gitignore)
 ├── code/           # Analysis scripts
-├── output/         # Tables, figures, and results
-├── docs/           # Notes, meeting summaries, documentation
 └── README.md
 
 ## Requirements
