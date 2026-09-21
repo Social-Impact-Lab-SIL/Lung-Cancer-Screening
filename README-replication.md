@@ -22,7 +22,7 @@ Download the 2022 BRFSS SAS Transport data file (`LLCP2022.XPT`) before running 
 
 ### National Health Interview Survey (NHIS)
 
-The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS and can be obtained here: https://nhis.ipums.org/nhis/
+The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS: https://nhis.ipums.org/nhis/
 
 
 
