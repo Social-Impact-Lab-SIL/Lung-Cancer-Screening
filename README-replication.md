@@ -22,13 +22,7 @@ Download the 2022 BRFSS SAS Transport data file (`LLCP2022.XPT`) before running 
 
 ### National Health Interview Survey (NHIS)
 
-The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS and cannot be redistributed in this repository.
-
-Researchers can obtain the data from IPUMS NHIS:
-
-https://nhis.ipums.org/nhis/
-
-Users should construct the required extract and comply with IPUMS terms of use and citation requirements before running `NHIS_Analysis.do`.
+The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS and can be obtained here: https://nhis.ipums.org/nhis/
 
 
 
@@ -41,7 +35,7 @@ Users should construct the required extract and comply with IPUMS terms of use a
 
 
 ## Instructions
-1. **Set Directory:** Open `main_file.do` (or `.R`) and update the `global` or `working_directory` path to your local machine.
+1. **Set Directory:** Open `main_file.do`  and update the `global` or `working_directory` path to your local machine.
 2. **Run Analysis:** Execute the scripts in the following order:
    - `01_clean_data.do`
    - `02_analysis.do`
