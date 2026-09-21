@@ -1,12 +1,11 @@
-# [Project Title]
+# Lung Cancer Screening After the 2021 USPSTF Eligibility Expansion: Evidence From Commercial Claims and National Surveys
 
-**Status:** [Active / Under Review / Published / Archived]  
-**Maintainer:** [Name, SIL role]  
-**Last Updated:** [Month Year]
-
+**Status:** Under Review  
+**Maintainer:** Brad Davis, Postdoctoral Fellow  
+**Last Updated:** September 2026
 ## Overview
 
-[1–2 sentences describing what this project is and what research question it addresses.]
+This paper examines changes in low-dose computed tomography (LDCT) lung cancer screening following the 2021 expansion of U.S. Preventive Services Task Force eligibility criteria. The analysis uses commercial claims data from the Health Care Cost Institute (HCCI) and nationally representative survey data from the 2022 Behavioral Risk Factor Surveillance System (BRFSS) and 2024 National Health Interview Survey (NHIS).
 
 ## Repository Structure
 ├── data/           # Raw and processed data (not committed — see .gitignore)
@@ -17,16 +16,17 @@
 
 ## Requirements
 
-[List the software and packages needed to run this project, e.g., Stata 17, R 4.x, Python 3.x]
+Stata 17
 
 ## How to Run
 
 [Step-by-step instructions for running the analysis from scratch.]
 
 ## Data Sources
-
-[List the data sources used, where they come from, and any access restrictions.]
+- **Health Care Cost Institute (HCCI), 2016–2022:** Commercial health insurance claims data. These data are proprietary and cannot be redistributed through this repository.
+- **Behavioral Risk Factor Surveillance System (BRFSS), 2022:** Public-use survey data from the Centers for Disease Control and Prevention.
+- **National Health Interview Survey (NHIS), 2024:** Survey data accessed through IPUMS NHIS. Users should obtain the data directly from IPUMS.
 
 ## Contact
 
-[Name] — [email] — Social Impact Lab, University of Missouri
+Brad Davis — badhhh@missouri.edu — Social Impact Lab, University of Missouri
