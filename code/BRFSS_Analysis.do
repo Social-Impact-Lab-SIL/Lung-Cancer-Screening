@@ -1,7 +1,7 @@
 clear all
-cd "C:\Users\badhhh\OneDrive - University of Missouri\Projects\Asthma\Cleaning\BRFSS DATA"
 
-import sasxport5 "LLCP2022"
+* Load 2022 BRFSS public-use data
+import sasxport5 "../data/LLCP2022.XPT", clear
 
 tab _age80, missing
 drop if _age80 < 51 | _age80 > 64
