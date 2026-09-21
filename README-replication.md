@@ -20,7 +20,11 @@ Download the 2022 BRFSS SAS Transport data file (`LLCP2022.XPT`) before running 
 
 ### National Health Interview Survey (NHIS)
 
-The 2024 National Health Interview Survey (NHIS) data used in this study were obtained through IPUMS NHIS: https://nhis.ipums.org/nhis/
+The 2024 National Health Interview Survey (NHIS) Sample Adult public-use data are available from the National Center for Health Statistics (NCHS):
+
+https://www.cdc.gov/nchs/nhis/documentation/2024-nhis.html
+
+Download the 2024 Sample Adult ASCII data file (`adult24.dat`) before running `NHIS_Analysis.do`.
 
 ## Software Requirements
 - **Primary Software:** Stata 17
