@@ -97,9 +97,96 @@ svy: tab lcsctwhn if _age80 > 55 & lcs_eligible == 1, missing //18.85% n = 2,692
 
 
 
+*************Table 3 Sensitivity Analysis*************
+
+* Load 2022 BRFSS public-use data
+import sasxport5 "../data/LLCP2022.XPT", clear
+
+tab _age80, missing
+drop if _age80 < 51 | _age80 > 64
+drop if _age80 == 55
+
+*Restrict to Employer/Union Sponsered Privately Insured
+tab priminsr, missing
+keep if priminsr == 1
+
+tab smoke100, missing
+* Restrict to respondents with known smoking status
+keep if smoke100 == 1 | smoke100 == 2
+
+tab _packyrs, missing
+tab _packyrs if smoke100 == 1, missing
+
+gen pack_year_20 = 0
+replace pack_year_20 = 1 if _packyrs>=20 & _packyrs !=. 
+
+gen pack_year_missing = 0 
+replace pack_year_missing = 1 if smoke100 == 1 & _packyrs == . 
+
+svyset _psu [pweight=_llcpwt], strata(_ststr)
+
+//Smoking history for total population
+svy: tab smoke100 if _age80<55, missing //32.89%
+svy: tab smoke100 if _age80>55, missing //36.86%
+
+//Percent of population with pack year missing
+svy: tab pack_year_missing if _age80<55, missing //4.03%
+svy: tab pack_year_missing if _age80>55, missing //4.04%
+
+//Percent of smokers with pack year missing
+svy: tab pack_year_missing if smoke100==1, missing //11.38%
 
 
+svy: tab _smokgrp if _age80 < 55, missing 
+svy: tab _smokgrp if _age80 > 55, missing 
 
+
+* Full smoking-history eligibility
+gen lcs_eligible = .
+
+replace lcs_eligible = 1 if _smokgrp == 1 | _smokgrp == 2  //Known eligible
+
+replace lcs_eligible = 0 if smoke100 == 2 //Never smokers = ineligible
+
+replace lcs_eligible = 0 if inlist(_smoker3,1,2) & _packyrs < 20 //Current smokers with <20 pack-years = definitely ineligible
+
+replace lcs_eligible = 0 if _smoker3 == 3 & _packyrs < 20 //Former smokers with <20 pack-years = definitely ineligible
+
+replace lcs_eligible = 0 if _smoker3 == 3 & _yrsquit >= 15 & _yrsquit < . //Former smokers who quit 15+ years ago = definitely ineligible
+
+gen elig_missing = 0
+replace elig_missing = 1 if smoke100 == 1 & lcs_eligible == .
+
+svy: tab elig_missing if _age80 < 55, missing //Percent of population with eligiblity missing - 3.36%
+svy: tab elig_missing if _age80 > 55, missing //Percent of population with eligiblity missing - 3.15%
+
+svy: tab elig_missing if smoke100 == 1, missing //Percent of ever smokers with eligiblity missing - 9.07%
+
+tab smoke100 _smoker3 if lcs_eligible == ., missing
+
+svy: tab lcs_eligible if _age80 < 55 & smoke100 == 1 & lcs_eligible != ., missing //Percent of current/former smokers that are eligible - 26.89%
+svy: tab lcs_eligible if _age80 > 55 & smoke100 == 1 & lcs_eligible != ., missing //Percent of current/former smokers that are eligible - 31.21%
+
+* Now look at eligible / ineligible / unknown
+
+svy: tab lcs_eligible if _age80 < 55, missing //7.94% + 3.36*0.2689  = 8.84% n = 15,179
+svy: tab lcs_eligible if _age80 > 55, missing //10.52% + 3.15*0.3121 = 11.50% n = 33,562
+
+
+*------------------------------------------------------------
+* Screening rates among those meeting smoking eligibility
+*------------------------------------------------------------
+
+*Restrict to those who responded to whether or not they recieved a CT scan. 
+keep if lcsctsc1 == 1 | lcsctsc1 == 2
+
+* Screening rate among eligible population only
+
+* Ages 51-54
+svy: tab lcsctwhn if _age80 < 55 & lcs_eligible == 1, missing //6.36% n = 1,229
+
+* Ages 56-64
+svy: tab lcsctwhn if _age80 > 55 & lcs_eligible == 1, missing //16.15% n = 3,320
 
 
 

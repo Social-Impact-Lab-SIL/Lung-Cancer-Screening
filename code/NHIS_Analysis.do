@@ -3466,3 +3466,204 @@ svy: tab lcs_screen if agep_a < 55 & lcs_eligible == 1 //8.3% n = 90
 * Ages 56-64
 svy: tab lcs_screen if agep_a > 55 & lcs_eligible == 1 //20.32% n = 221
 
+***********Table 3 Sensitivity Analysis***********
+
+use NHIS_2024.dta, replace 
+
+* Age: 51-64, excluding age 55
+tab agep_a, missing
+keep if agep_a > 50
+drop if agep_a == 55
+keep if agep_a < 65
+
+
+* Employer-sponsored private insurance
+tab plnwrkr1_a, missing
+tab plnwrkr2_a, missing
+gen employer_ins = 0
+replace employer_ins = 1 if plnwrkr1_a == 1 | plnwrkr2_a == 1
+keep if employer_ins == 1
+
+tab smkev_a, missing
+* Restrict to respondents with known smoking status
+keep if smkev_a == 1 | smkev_a == 2
+
+
+* CONSTRUCT PACK-YEARS
+
+* Average cigarettes smoked per day over smoking history
+
+tab avgnumcig_a, missing
+
+gen avg_cigs_day = real(avgnumcig_a)
+
+* Refused / not ascertained / don't know
+replace avg_cigs_day = . if inlist(avg_cigs_day, 97, 98, 99)
+
+* Respondents who reported smoking in packs rather than cigarettes
+* 1 = 0.5 pack, 2 = 1 pack, 3 = 1.5 packs, etc.
+replace avg_cigs_day = avgpackcig_a * 10 ///
+    if trim(avgnumcig_a) == "P" & inrange(avgpackcig_a, 1, 8)
+
+
+*------------------------------------------------------------
+* Years since quitting
+*
+* SMKNOW_A:
+*   1 = smokes every day
+*   2 = smokes some days
+*   3 = does not currently smoke
+*------------------------------------------------------------
+
+gen quit_years = .
+
+* Current smokers
+replace quit_years = 0 if smkev_a == 1 & inlist(smknow_a, 1, 2)
+
+* Former smokers: quit duration reported in days
+replace quit_years = smkqtnp_a / 365.25 if smkev_a == 1 & smknow_a == 3 & smkqttp_a == 1 & inrange(smkqtnp_a, 1, 365)
+
+* Former smokers: quit duration reported in weeks
+replace quit_years = smkqtnp_a / 52.1775 if smkev_a == 1 & smknow_a == 3 & smkqttp_a == 2 & inrange(smkqtnp_a, 1, 365)
+
+* Former smokers: quit duration reported in months
+replace quit_years = smkqtnp_a / 12 if smkev_a == 1 & smknow_a == 3 & smkqttp_a == 3 & inrange(smkqtnp_a, 1, 365)
+
+* Former smokers: quit duration reported in years
+replace quit_years = smkqtnp_a if smkev_a == 1 & smknow_a == 3 & smkqttp_a == 4 & inrange(smkqtnp_a, 1, 70)
+
+*------------------------------------------------------------
+* Years smoked
+*
+* Current smoker:
+*   current age - age started
+*
+* Former smoker:
+*   current age - age started - years since quit
+*------------------------------------------------------------
+
+gen years_smoked = agep_a - smkage_a - quit_years if smkev_a == 1 & inrange(smkage_a, 6, 95)
+
+replace years_smoked = . if years_smoked < 0
+
+* Pack-years
+
+gen packyears = (avg_cigs_day / 20) * years_smoked if smkev_a == 1
+
+tab packyears, missing
+summ packyears, detail
+
+
+* Indicator for >=20 pack-years. Everyone without observed >=20 pack-years is initially coded 0,
+gen pack_year_20 = 0
+replace pack_year_20 = 1 if packyears >= 20 & packyears != .
+
+
+* Indicator for missing pack-years among ever smokers
+gen pack_year_missing = 0
+replace pack_year_missing = 1 if smkev_a == 1 & packyears == .
+
+tab pack_year_20, missing
+tab pack_year_missing, missing
+tab packyears if smkev_a == 1, missing
+
+svyset ppsu [pweight=wtfa_a], strata(pstrat)
+
+
+*------------------------------------------------------------
+* Smoking history for total population
+*------------------------------------------------------------
+
+svy: tab smkev_a if agep_a < 55, missing
+svy: tab smkev_a if agep_a > 55, missing
+
+
+*------------------------------------------------------------
+* Percent of population with pack-year information missing
+*------------------------------------------------------------
+
+svy: tab pack_year_missing if agep_a < 55, missing //1.78% 
+svy: tab pack_year_missing if agep_a > 55, missing //2.20% 
+
+
+*------------------------------------------------------------
+* Percent of population with at least a 20 pack-year history
+* based on observed pack-year information
+*------------------------------------------------------------
+
+svy: tab pack_year_20 if agep_a < 55, missing //9.95% + 1.78*0.3219 = 10.52%
+svy: tab pack_year_20 if agep_a > 55, missing //13.50% + 2.20*.4375 = 14.46%
+
+
+*------------------------------------------------------------
+* Among ever smokers WITH observed pack-years:
+* proportion with >=20 pack-years
+*------------------------------------------------------------
+
+svy: tab pack_year_20 if agep_a < 55 & smkev_a == 1 & packyears != ., missing //32.19%
+svy: tab pack_year_20 if agep_a > 55 & smkev_a == 1 & packyears != ., missing //43.75%
+
+
+*Full smoking-history eligibility: >=20 pack-years AND current smoker / quit <15 years ago
+ 
+gen lcs_eligible = .
+
+replace lcs_eligible = 1 if smkev_a == 1 & packyears >= 20 & packyears < . & quit_years < 15 //Eligible
+
+replace lcs_eligible = 0 if smkev_a == 2 //Never smokers = ineligible
+
+replace lcs_eligible = 0 if smkev_a == 1 & packyears < 20 //Ever smokers with <20 pack-years = ineligible
+
+replace lcs_eligible = 0 if smkev_a == 1 & smknow_a == 3 & quit_years >= 15 & quit_years < . //Former smokers who quit 15+ years ago = ineligible
+
+
+replace lcs_eligible = 0 if smkev_a == 1 & lcs_eligible == . & !missing(avg_cigs_day) & inrange(smkage_a, 6, 95) & (avg_cigs_day / 20) * (agep_a - smkage_a) < 20 // If maximum possible pack-years is still <20, ineligible (one person affected) 
+	
+* Missing eligibility among known ever smokers
+gen elig_missing = 0
+replace elig_missing = 1 if smkev_a == 1 & lcs_eligible == .
+
+svy: tab elig_missing if smkev_a == 1, missing //2.34%
+
+
+* Percent of total population with eligibility missing
+svy: tab elig_missing if agep_a < 55, missing //0.69%
+svy: tab elig_missing if agep_a > 55, missing //0.81%
+
+
+* Percent of complete ever smokers who are eligible
+svy: tab lcs_eligible if agep_a < 55 & smkev_a == 1 & lcs_eligible != ., missing //28.84%
+svy: tab lcs_eligible if agep_a > 55 & smkev_a == 1 & lcs_eligible != ., missing //33.09%
+
+* Eligible / ineligible / unknown in total population
+svy: tab lcs_eligible if agep_a < 55, missing //9.22% + 0.69*.2884   = 9.42% n = 1,162
+svy: tab lcs_eligible if agep_a > 55, missing //10.67% + 0.81*0.3309 = 10.94% n = 2,589
+
+list agep_a smkev_a smknow_a smkage_a avgnumcig_a ///
+     smkqttp_a smkqtnp_a packyears quit_years ///
+     if elig_missing == 1
+
+	 
+
+*------------------------------------------------------------
+* Lung cancer screening within past year
+*------------------------------------------------------------
+gen lcs_screen = .
+
+replace lcs_screen = 0 if ctscanev1_a == 2 //Never had a chest CT = not screened
+
+replace lcs_screen = 0 if ctscanev1_a == 1 & inrange(ctlngwhn1_a, 2, 6) //Most recent chest CT was more than one year ago = not screened
+
+replace lcs_screen = 0 if ctscanev1_a == 1 & ctlngwhn1_a == 1 & ctlngcan1_a == 2 //CT within past year, but not for lung cancer screening = not screened
+
+replace lcs_screen = 1 if ctscanev1_a == 1 & ctlngwhn1_a == 1 & ctlngcan1_a == 1 //CT within past year AND for lung cancer screening = screened
+
+
+tab lcs_screen if lcs_eligible == 1, missing
+
+
+* Ages 51-54
+svy: tab lcs_screen if agep_a < 55 & lcs_eligible == 1 //6.83% n = 109
+
+* Ages 56-64
+svy: tab lcs_screen if agep_a > 55 & lcs_eligible == 1 //18.96% n = 267
